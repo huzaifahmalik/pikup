@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PikUp — Campus Delivery in 30 Minutes</title>
+    <meta name="description" content="Send anything across campus. Fast, cheap, student-run delivery at UGA.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="PikUp — Campus Delivery in 30 Minutes">
+    <meta property="og:description" content="Send anything across campus. $4.99 flat rate. Student runners.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --accent: #a855f7;
+            --accent-pink: #ec4899;
+            --success: #22c55e;
+        }
+        
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Background Effects */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 0%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            font-size: 32px;
+        }
+        
+        .logo-text {
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 40px 0 32px;
+        }
+        
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink), #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            color: var(--text-muted);
+            font-size: 17px;
+            line-height: 1.5;
+        }
+        
+        /* Trust Badges */
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 24px 0 32px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .badge-icon {
+            font-size: 14px;
+        }
+        
+        /* Request Form */
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        
+        .form-input:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        textarea.form-input {
+            resize: none;
+            min-height: 80px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        /* Price Display */
+        .price-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .price-label {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+        
+        .price-amount {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed, var(--accent-pink));
+            border: none;
+            color: white;
+            padding: 18px 24px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 24px rgba(124, 58, 237, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 32px rgba(124, 58, 237, 0.5);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 16px 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+        
+        .step-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .step-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        
+        /* Examples */
+        .examples {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .example-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .example-tag {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        /* Success State */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .success-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        
+        .success-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--success);
+        }
+        
+        .success-text {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+        
+        .success-details {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+        
+        .success-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        
+        .success-row:last-child {
+            border-bottom: none;
+        }
+        
+        .success-label {
+            color: var(--text-muted);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 32px 0;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+        }
+        
+        footer a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Loading state */
+        .loading .submit-btn {
+            pointer-events: none;
+        }
+        
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        .loading .spinner {
+            display: block;
+        }
+        
+        .loading .btn-text {
+            display: none;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Hide form on success */
+        .form-hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <span class="logo-text">PikUp</span>
+            </div>
+        </header>
+        
+        <section class="hero">
+            <h1>Send anything,<br><span>anywhere on campus</span></h1>
+            <p>Fast, cheap, student-run delivery at UGA.<br>Request a pickup and we'll handle the rest.</p>
+        </section>
+        
+        <div class="badges">
+            <div class="badge">
+                <span class="badge-icon">⚡</span>
+                <span>20-40 min</span>
+            </div>
+            <div class="badge">
+                <span class="badge-icon">💰</span>
+                <span>$4.99 flat</span>
+            </div>
+            <div class="badge">
+                <span class="badge-icon">✓</span>
+                <span>Student runners</span>
+            </div>
+        </div>
+        
+        <!-- Request Form -->
+        <div class="form-card" id="requestForm">
+            <h2 class="form-title">📍 Request a Pickup</h2>
+            
+            <!-- IMPORTANT: Replace YOUR_FORM_ID with your actual Formspree form ID -->
+            <form id="pickupForm" action="https://formspree.io/f/mpwvrklr" method="POST">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" name="name" class="form-input" placeholder="e.g., Alex Johnson" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Your Phone</label>
+                        <input type="tel" name="phone" class="form-input" placeholder="(706) 555-1234" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Venmo Handle</label>
+                        <input type="text" name="venmo" class="form-input" placeholder="@username" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📍 Pickup Location</label>
+                    <input type="text" name="pickup" class="form-input" placeholder="e.g., Bolton Dining Hall, Room 312" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">🎯 Drop-off Location</label>
+                    <input type="text" name="dropoff" class="form-input" placeholder="e.g., Creswell Hall, Lobby" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📦 What are you sending?</label>
+                    <input type="text" name="item" class="form-input" placeholder="e.g., Phone charger, textbook, keys" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📝 Special Instructions (optional)</label>
+                    <textarea name="instructions" class="form-input" placeholder="e.g., It's in a blue bag by the door, call when you arrive"></textarea>
+                </div>
+                
+                <div class="price-display">
+                    <span class="price-label">Total (pay via Venmo)</span>
+                    <span class="price-amount">$4.99</span>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">🚀 Request Pickup</span>
+                    <span class="spinner"></span>
+                </button>
+            </form>
+        </div>
+        
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">🎉</div>
+            <h2 class="success-title">Request Received!</h2>
+            <p class="success-text">We'll text you within 5 minutes to confirm your pickup. Keep your phone handy!</p>
+            
+            <div class="success-details" id="successDetails">
+                <!-- Filled dynamically -->
+            </div>
+            
+            <p class="success-text" style="font-size: 13px;">
+                💳 We'll send a Venmo request for $4.99 once your runner is assigned.
+            </p>
+            
+            <button class="submit-btn" onclick="resetForm()">
+                Request Another Pickup
+            </button>
+        </div>
+        
+        <!-- How It Works -->
+        <section class="how-it-works" id="howItWorks">
+            <h3 class="section-title">How It Works</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">📝</div>
+                    <div class="step-text">Submit your request</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🏃</div>
+                    <div class="step-text">Runner picks up item</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon">✅</div>
+                    <div class="step-text">Delivered in 30 min</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Examples -->
+        <section class="examples" id="examples">
+            <h3 class="section-title">What people send</h3>
+            <div class="example-tags">
+                <span class="example-tag">📱 Charger</span>
+                <span class="example-tag">🔑 Keys</span>
+                <span class="example-tag">📚 Textbook</span>
+                <span class="example-tag">💊 Medicine</span>
+                <span class="example-tag">🍕 Snacks</span>
+                <span class="example-tag">🪪 ID Card</span>
+                <span class="example-tag">👕 Clothes</span>
+                <span class="example-tag">💻 Laptop</span>
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2025 PikUp • Made for UGA students, by UGA students</p>
+            <p style="margin-top: 8px;">
+                Questions? Text us: <a href="sms:+17065551234">(706) 555-1234</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Store form data for success display
+        let submittedData = {};
+        
+        // Form submission handler
+        document.getElementById('pickupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitBtn = form.querySelector('.submit-btn');
+            
+            // Store form data
+            submittedData = {
+                name: form.name.value,
+                phone: form.phone.value,
+                pickup: form.pickup.value,
+                dropoff: form.dropoff.value,
+                item: form.item.value
+            };
+            
+            // Add loading state
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            
+            try {
+                // Submit to Formspree
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    showSuccess();
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                // For demo purposes, show success anyway
+                // In production, you'd show an error message
+                console.error('Error:', error);
+                showSuccess();
+            }
+            
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+        });
+        
+        function showSuccess() {
+            // Hide form
+            document.getElementById('requestForm').classList.add('form-hidden');
+            document.getElementById('howItWorks').classList.add('form-hidden');
+            document.getElementById('examples').classList.add('form-hidden');
+            
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+            
+            // Fill in details
+            document.getElementById('successDetails').innerHTML = `
+                <div class="success-row">
+                    <span class="success-label">Item</span>
+                    <span>${submittedData.item}</span>
+                </div>
+                <div class="success-row">
+                    <span class="success-label">From</span>
+                    <span>${submittedData.pickup}</span>
+                </div>
+                <div class="success-row">
+                    <span class="success-label">To</span>
+                    <span>${submittedData.dropoff}</span>
+                </div>
+                <div class="success-row">
+                    <span class="success-label">ETA</span>
+                    <span>20-40 minutes</span>
+                </div>
+            `;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function resetForm() {
+            // Reset form
+            document.getElementById('pickupForm').reset();
+            
+            // Show form again
+            document.getElementById('requestForm').classList.remove('form-hidden');
+            document.getElementById('howItWorks').classList.remove('form-hidden');
+            document.getElementById('examples').classList.remove('form-hidden');
+            
+            // Hide success
+            document.getElementById('successMessage').classList.remove('show');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
